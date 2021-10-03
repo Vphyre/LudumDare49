@@ -38,6 +38,8 @@ public class Player : MonoBehaviour
         {
             canGetItem = true;
             itemObj = other.gameObject;
+            print(other.gameObject.name);
+            print(itemObj.name);
         }
     }
     private void OnTriggerStay2D(Collider2D other)
@@ -46,6 +48,8 @@ public class Player : MonoBehaviour
         {
             canGetItem = true;
             itemObj = other.gameObject;
+            print(other.gameObject.name);
+            print(itemObj.name);
         }
     }
     private void OnTriggerExit2D(Collider2D other)
@@ -53,6 +57,8 @@ public class Player : MonoBehaviour
         if(other.gameObject.CompareTag("Item"))
         {
             canGetItem = false;
+            itemObj = null;
+            print("saiu");
         }
     }
     private void DropItem()
