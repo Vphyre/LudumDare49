@@ -81,6 +81,7 @@ public class Player : MonoBehaviour
             // print(other.gameObject.name);
             // print(itemObj.name);
         }
+        
     }
     private void OnTriggerExit2D(Collider2D other)
     {
@@ -89,6 +90,7 @@ public class Player : MonoBehaviour
             canGetItem = false;
             itemObj = null;
         }
+        
     }
     private void DropItem()
     {
