@@ -1,0 +1,21 @@
+Using pre-set license
+Built from '2021.1/staging' branch; Version is '2021.1.13f1 (a03098edbbe0) revision 10498200'; Using compiler version '192528614'; Build Type 'Release'
+OS: 'Windows 10 Pro; OS build 19042.1237; Version 2009; 64bit' Language: 'pt' Physical Memory: 16333 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 0
+
+ COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\2021.1.13f1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker3
+-projectPath
+C:/Users/Vinicius Paulo/Desktop/Desenvolvimento de games/ProjetosProprios/LudumDare49
+-logFile
+Logs/AssetImportWorker3.log
+-srvPort
+64884
+Successfully changed project path to: C:/Users/Vinicius Paulo/Desktop/Desenvolvimento de games/ProjetosProprios/LudumDare49
+C:/Users/Vinicius Paulo/Desktop/Desenvolvimento de games/ProjetosProprios/LudumDare49
+Using Asset Import Pipeline V2.

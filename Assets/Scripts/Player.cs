@@ -12,25 +12,55 @@ public class Player : MonoBehaviour
     bool canGetItem;
     bool itemCaught;
     GameObject itemObj;
+    Animator animator;
+    bool facingRight;
+    public bool dieScene;
 
-    void Start ()
+    void Start()
     {
         body = GetComponent<Rigidbody2D>(); 
+        animator = GetComponent<Animator>(); 
         canGetItem = false;
         itemCaught = false;
+        facingRight = true;
     }
 
-    void Update ()
+    void Update()
     {
-        DropItem();
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical"); 
-        GetItem();
+        if(!dieScene)
+        {
+            DropItem();
+            horizontal = Input.GetAxisRaw("Horizontal");
+            vertical = Input.GetAxisRaw("Vertical"); 
+            GetItem();
+            AnimationController();
+
+            if((horizontal>0 && !facingRight) || (horizontal<0 && facingRight ))
+            {
+                Flip();
+            }
+            if(transform.childCount==1)
+            {
+                itemCaught = false;
+            }
+        }
+        else
+        {
+            animator.SetFloat("Speed", 0f);
+            animator.SetBool("Holding", false);
+            animator.SetBool("Idle", false);
+            animator.SetBool("Dead", true);
+        
+        }
+        
     }
 
     private void FixedUpdate()
     {  
-        body.velocity = new Vector2(horizontal * speed, vertical * speed);
+        if(!dieScene)
+        {
+            body.velocity = new Vector2(horizontal * speed, vertical * speed);
+        }
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -62,14 +92,15 @@ public class Player : MonoBehaviour
     }
     private void DropItem()
     {
-        if(transform.childCount>2)
+        if(transform.childCount>1)
         {
             if(Input.GetKeyDown(KeyCode.R))
             {
-                transform.GetChild(2).gameObject.transform.position = new Vector3(itemPosition.position.x,itemPosition.position.y-0.3f,itemPosition.position.z);
-                transform.GetChild(2).gameObject.transform.SetParent(null);
+                transform.GetChild(1).gameObject.transform.position = new Vector3(itemPosition.position.x,itemPosition.position.y-0.3f,itemPosition.position.z);
+                transform.GetChild(1).gameObject.transform.SetParent(null);
                 itemObj = null;
                 itemCaught = false;
+                print("Dropou");
             }
         }
     }
@@ -77,9 +108,61 @@ public class Player : MonoBehaviour
     {
         if(canGetItem && Input.GetKeyDown(KeyCode.E) && !itemCaught)
         {
-            itemObj.transform.SetParent(transform);
-            itemObj.transform.position = new Vector3(itemPosition.position.x,itemPosition.position.y, itemPosition.position.z);
-            itemCaught = true;
+            if(itemObj.tag == "Untagged")
+            {
+                itemCaught = false;
+            }
+            else
+            {
+                itemObj.transform.SetParent(transform);
+                itemObj.transform.position = new Vector3(itemPosition.position.x,itemPosition.position.y, itemPosition.position.z);
+                itemCaught = true;
+            }
+        }
+
+    }
+    void Flip()
+    {
+        facingRight =!facingRight;
+        transform.rotation = Quaternion.Euler(0, facingRight ? 0 : 180,0);
+    }
+
+    void AnimationController()
+    {
+        float walking;
+        walking = Mathf.Abs(body.velocity.x)+Mathf.Abs(body.velocity.y);
+        //Walking
+        if(Mathf.Abs(walking)>0)
+        {
+            animator.SetFloat("Speed", Mathf.Abs(walking));
+            animator.SetBool("Holding", false);
+            animator.SetBool("Idle", false);
+            animator.SetBool("Dead", false);
+        }
+        //Idle
+        else
+        {
+            animator.SetFloat("Speed", 0f);
+            animator.SetBool("Holding", false);
+            animator.SetBool("Idle", true);
+            animator.SetBool("Dead", false);
+        }
+        //Walking Holding
+        if(walking>0 && itemCaught)
+        {
+            animator.SetFloat("Speed", Mathf.Abs(walking));
+            animator.SetBool("Holding", true);
+            animator.SetBool("Idle", false);
+            animator.SetBool("Dead", false);
+        }
+        //Idle Holding
+        else if(walking<=0 && itemCaught)
+        {
+            animator.SetFloat("Speed", 0f);
+            animator.SetBool("Holding", true);
+            animator.SetBool("Idle", true);
+            animator.SetBool("Dead", false);
         }
     }
+
 }

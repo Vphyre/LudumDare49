@@ -44,16 +44,18 @@ public class Chair : MonoBehaviour
             player.transform.SetParent(transform);
             player.transform.position = new Vector3(seat.position.x, seat.position.y, seat.position.z);
             player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+            gameObject.tag = "Untagged";
         }
     }
     protected void GoDown()
     {
         if(transform.childCount>1 && Input.GetKey(KeyCode.S))
         {
-            player.transform.position = new Vector3(transform.position.x, transform.position.y-0.7f, seat.position.z);
+            player.transform.position = new Vector3(transform.position.x, transform.position.y-1f, seat.position.z);
             player.transform.SetParent(null);
             player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
             player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+            gameObject.tag = "Item";
         }
 
     }

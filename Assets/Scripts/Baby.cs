@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Baby : MonoBehaviour
 {
@@ -30,13 +31,17 @@ public class Baby : MonoBehaviour
     public bool canChangePlace;
     public bool canRandomizeRequest;
     public bool canCry;
-    public bool canRandomizeItensPlace;
-    
+    Animator animator;
+    float animationTime;
+    public static string previousSceneName;
+    public string nextDay;
+
     // Start is called before the first frame update
     void Start()
     {
         itemPlaces = GameObject.FindGameObjectsWithTag("Place");
         babyPlaces = GameObject.FindGameObjectsWithTag("BabyPlaces");
+        animator = GetComponent<Animator>(); 
         levelRequests = new string[amountRequested];
         originalItems = new string[10];
         sort = 0;
@@ -48,20 +53,35 @@ public class Baby : MonoBehaviour
         CopyArray();
         SortItemsRequests();
         ResetArray();
-        SortItemPlaces();        
+        SortItemPlaces(); 
+        animationTime = 0;
+
+           
     }
 
     // Update is called once per frame
     void Update()
     {
+        AnimationController();
         randomTime-=Time.deltaTime;
         randomRequestTime-=Time.deltaTime;
         cryTime-=Time.deltaTime;
+        animationTime -=Time.deltaTime;
+        GameBehaviour();
         RandomizeBaby();
         BabyMood();
         BabyRequest();
         Cry();
-        GameBehaviour();
+        AnimationController();
+    }
+    void AnimationController()
+    {
+        if(moodDrain==1f && animationTime<0)
+        {
+            animator.SetBool("Cry", false);
+            animator.SetBool("Happy", false);
+            animator.SetBool("Idle", true);
+        }
     }
     void SortItemsRequests()
     {
@@ -119,7 +139,7 @@ public class Baby : MonoBehaviour
     }
     void IntantiateItem(string nameItem, GameObject place)
     {
-        var obj = Instantiate(Resources.Load("Prefabs/Testes/Items/"+nameItem, typeof(GameObject)) as GameObject);
+        var obj = Instantiate(Resources.Load("Prefabs/Items/"+nameItem, typeof(GameObject)) as GameObject);
         obj.transform.position = new Vector3(place.transform.position.x, place.transform.position.y, place.transform.position.z);
         obj.transform.SetParent(place.transform);
         obj.name = nameItem;
@@ -139,6 +159,15 @@ public class Baby : MonoBehaviour
         float percent;
         moodTime-=Time.deltaTime*moodDrain;
         percent = (moodTime*100f)/moodTimeAux;
+        
+        if(percent<=0)
+        {
+            percent = 0f;
+        }
+        if(moodTime>moodTimeAux)
+        {
+            moodTime = moodTimeAux;
+        }
         moodNumber.text = percent.ToString("F");
     }
     void BabyRequest()
@@ -256,19 +285,37 @@ public class Baby : MonoBehaviour
     {
         if(canCry && cryTime<0)
         {
-            int crySort = (int)Random.Range(0,3.9f);;
+            int crySort = (int)Random.Range(0,4.3f);
+            print(crySort);
             if(crySort==0)
             {
                 moodDrain = 1f;
+                animator.SetBool("Cry", false);
+                animator.SetBool("Idle", true);
+                animator.SetBool("Happy", false);
             }
             else if(crySort==2)
             {
                 moodDrain = 1f;
+                animator.SetBool("Cry", false);
+                animator.SetBool("Idle", true);
+                animator.SetBool("Happy", false);
             }
             else if(crySort == 3)
             {
                 moodDrain = 3f;
-                print("Chorando");
+                animator.SetBool("Cry", true);
+                animator.SetBool("Idle", false);
+                animator.SetBool("Happy", false);
+                print("CHORANDU");
+            }
+            else if(crySort == 4)
+            {
+                moodDrain = 3f;
+                animator.SetBool("Cry", true);
+                animator.SetBool("Idle", false);
+                animator.SetBool("Happy", false);
+                print("CHORANDU");
             }
             cryTime = 5f;
         }
@@ -281,18 +328,36 @@ public class Baby : MonoBehaviour
             {
                 itemsCaught++;
                 itensRemaining--;
-                print("OBRIGADO");
+                animator.SetBool("Cry", false);
+                animator.SetBool("Happy", true);
+                animator.SetBool("Idle", false);
+                moodDrain = 1f;
+                moodTime+=30f;
+                animationTime=0.7f;
                 Destroy(other.gameObject);
             }
             else
             {
-                print("GAMEOVER");
+                GameOver();
             }
         }
     }
     void GameBehaviour()
     {
         remainingText.text = itensRemaining.ToString();
+        if(itensRemaining<=0)
+        {
+            SceneManager.LoadScene(nextDay);
+        }
+        if(moodTime<=0)
+        {
+            GameOver(); 
+        }
+    }
+    public static void GameOver()
+    {
+        previousSceneName = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene("GameOver"); 
     }
 
 }

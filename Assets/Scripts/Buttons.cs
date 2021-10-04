@@ -25,4 +25,9 @@ public class Buttons : MonoBehaviour
     {
         Application.Quit();
     }
+    public void GameOver()
+    {
+        SceneManager.LoadScene(Baby.previousSceneName);
+    }
+
 }
