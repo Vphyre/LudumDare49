@@ -6,12 +6,54 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Day1.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: 2e1f1cc6e08350b4d96f5f940f7cd349
   - enabled: 1
+    path: Assets/Scenes/Day1.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
     path: Assets/Scenes/GameOver.unity
     guid: 568651b2ada628743b586cc15dd0da0d
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 5652cc11459f7c644a4af5f4e819b622
+  - enabled: 1
+    path: Assets/Scenes/Tutorial.unity
+    guid: 1fdb8a97881b57d4c8d24b639104e430
+  - enabled: 1
+    path: Assets/Scenes/ToDo1.unity
+    guid: bad1c4e910fb2a245aca1486809bb55a
+  - enabled: 1
+    path: Assets/Scenes/Story.unity
+    guid: 3259c3cc53c469847a0e90909e6d3baf
+  - enabled: 1
+    path: Assets/Scenes/ToDo2.unity
+    guid: 8b835114bf7a78e4cbd5b46bb4019de6
+  - enabled: 1
+    path: Assets/Scenes/ToDo3.unity
+    guid: e4230a10af9c774409d97fe6c6093a4a
+  - enabled: 1
+    path: Assets/Scenes/ToDo4.unity
+    guid: 37b8d75ecbbacab4f80ca8b4fe450c15
+  - enabled: 1
+    path: Assets/Scenes/End.unity
+    guid: 028d346fe750da84b81d10f1b9e6314c
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: e51f3726b7d166b48aaa07a56de7ba80
+  - enabled: 1
+    path: Assets/Scenes/Day2.unity
+    guid: b0c88e6441ee8c8409fc903e7f9e91fa
+  - enabled: 1
+    path: Assets/Scenes/Day3.unity
+    guid: 8dae0af9c3ec3c64d9944e4c061f214a
+  - enabled: 1
+    path: Assets/Scenes/Day4.unity
+    guid: 1ee9785ec1355c44382d3e63c78a5982
   m_configObjects: {}

@@ -5,6 +5,8 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     public Transform doorPosition;
+
+    public bool die;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +23,15 @@ public class Door : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            other.gameObject.transform.position = new Vector3(doorPosition.position.x, doorPosition.position.y, doorPosition.position.z);
+            if(die)
+            {
+                Baby.GameOver();
+            }
+            else
+            {
+                other.gameObject.transform.position = new Vector3(doorPosition.position.x, doorPosition.position.y, doorPosition.position.z);
+            }
+            
         }
     }
 }

@@ -11,7 +11,7 @@ public class Baby : MonoBehaviour
     public string[] babyQuotes;
     public int amountRequested;
     public int itemsCaught;
-    int itensRemaining;
+    public int itensRemaining;
     public float randomTime = 20f;
     public float randomRequestTime = 0f;
     public float cryTime = 20f;
@@ -35,6 +35,10 @@ public class Baby : MonoBehaviour
     float animationTime;
     public static string previousSceneName;
     public string nextDay;
+    public bool stopRequest;
+    public AudioClip crySound, happySound, teleportSound;
+    public AudioSource sounds;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -47,7 +51,6 @@ public class Baby : MonoBehaviour
         sort = 0;
         requestSort = 0;
         itemsCaught = 0;
-        canChangePlace = false;
         moodTimeAux = moodTime;
         itensRemaining = amountRequested;
         CopyArray();
@@ -55,8 +58,8 @@ public class Baby : MonoBehaviour
         ResetArray();
         SortItemPlaces(); 
         animationTime = 0;
-
-           
+        stopRequest = false;
+        sounds = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -152,6 +155,10 @@ public class Baby : MonoBehaviour
             int placeSort = (int)Random.Range(0,6.9f);
             transform.position = new Vector3(babyPlaces[placeSort].transform.position.x,babyPlaces[placeSort].transform.position.y, babyPlaces[placeSort].transform.position.z);
             randomTime = 20f;
+            sounds.Stop();
+            sounds.clip = teleportSound;
+            sounds.Play();
+            moodDrain = 1f;
         }
     }
     void BabyMood()
@@ -172,9 +179,15 @@ public class Baby : MonoBehaviour
     }
     void BabyRequest()
     {
-        if(canRandomizeRequest && randomRequestTime<0)
+        if(canRandomizeRequest && randomRequestTime<0 && !stopRequest)
         {
-            requestSort = (int)Random.Range(0,(float)amountRequested-0.1f);
+            print("entrou");
+            do
+            {
+                requestSort = (int)Random.Range(0,(float)amountRequested-0.1f);
+            }
+            while(levelRequests[requestSort]==null);
+
             if(levelRequests[requestSort] == "BabyBottle")
             {
                 itemText.text = babyQuotes[0];
@@ -225,9 +238,9 @@ public class Baby : MonoBehaviour
                 itemText.text = babyQuotes[9];
                 currentRequest = levelRequests[requestSort];
             }
-            randomRequestTime = 5f;
+            randomRequestTime = 25f;
         }
-        else if(!canRandomizeRequest)
+        else if(!canRandomizeRequest && !stopRequest)
         {
             if(levelRequests[itemsCaught] == "BabyBottle")
             {
@@ -293,6 +306,7 @@ public class Baby : MonoBehaviour
                 animator.SetBool("Cry", false);
                 animator.SetBool("Idle", true);
                 animator.SetBool("Happy", false);
+                sounds.Stop();
             }
             else if(crySort==2)
             {
@@ -300,6 +314,7 @@ public class Baby : MonoBehaviour
                 animator.SetBool("Cry", false);
                 animator.SetBool("Idle", true);
                 animator.SetBool("Happy", false);
+                sounds.Stop();
             }
             else if(crySort == 3)
             {
@@ -307,6 +322,8 @@ public class Baby : MonoBehaviour
                 animator.SetBool("Cry", true);
                 animator.SetBool("Idle", false);
                 animator.SetBool("Happy", false);
+                sounds.clip = crySound;
+                sounds.Play();
                 print("CHORANDU");
             }
             else if(crySort == 4)
@@ -315,9 +332,11 @@ public class Baby : MonoBehaviour
                 animator.SetBool("Cry", true);
                 animator.SetBool("Idle", false);
                 animator.SetBool("Happy", false);
+                sounds.clip = crySound;
+                sounds.Play();
                 print("CHORANDU");
             }
-            cryTime = 5f;
+            cryTime = 20f;
         }
     }
     private void OnTriggerEnter2D(Collider2D other)
@@ -334,6 +353,20 @@ public class Baby : MonoBehaviour
                 moodDrain = 1f;
                 moodTime+=30f;
                 animationTime=0.7f;
+                sounds.Stop();
+                sounds.PlayOneShot(happySound);
+                randomRequestTime= -1f;
+                int i =0;
+                do
+                {
+                    if(levelRequests[i] == other.gameObject.name)
+                    {
+                        levelRequests[i] = null;
+                    }
+                    i++;
+                    
+                }while(i<amountRequested);
+                
                 Destroy(other.gameObject);
             }
             else
@@ -347,6 +380,7 @@ public class Baby : MonoBehaviour
         remainingText.text = itensRemaining.ToString();
         if(itensRemaining<=0)
         {
+            stopRequest = true;
             SceneManager.LoadScene(nextDay);
         }
         if(moodTime<=0)
@@ -359,5 +393,6 @@ public class Baby : MonoBehaviour
         previousSceneName = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene("GameOver"); 
     }
+    
 
 }

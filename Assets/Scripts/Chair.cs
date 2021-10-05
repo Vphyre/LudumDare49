@@ -51,7 +51,7 @@ public class Chair : MonoBehaviour
     {
         if(transform.childCount>1 && Input.GetKey(KeyCode.S))
         {
-            player.transform.position = new Vector3(transform.position.x, transform.position.y-1f, seat.position.z);
+            player.transform.position = new Vector3(transform.position.x, transform.position.y-0.65f, seat.position.z);
             player.transform.SetParent(null);
             player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
             player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
