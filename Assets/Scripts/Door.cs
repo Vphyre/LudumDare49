@@ -7,10 +7,12 @@ public class Door : MonoBehaviour
     public Transform doorPosition;
 
     public bool die;
+    AudioSource sounds;
+    public AudioClip doorSound;
     // Start is called before the first frame update
     void Start()
     {
-        
+        sounds = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -30,6 +32,7 @@ public class Door : MonoBehaviour
             else
             {
                 other.gameObject.transform.position = new Vector3(doorPosition.position.x, doorPosition.position.y, doorPosition.position.z);
+                sounds.PlayOneShot(doorSound);
             }
             
         }

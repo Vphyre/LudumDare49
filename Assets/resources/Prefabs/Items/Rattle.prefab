@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5561637737652143666}
   - component: {fileID: 5561637737652143667}
   - component: {fileID: 5561637737652143693}
+  - component: {fileID: -3036405471330069871}
   m_Layer: 0
   m_Name: Rattle
   m_TagString: Item
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 5561637737652143694}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.73, y: 3.76, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -97,6 +98,18 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.004929185, y: 0.025375783}
+  m_Offset: {x: 0.0024046302, y: -0.0029119253}
   serializedVersion: 2
-  m_Radius: 0.4872371
+  m_Radius: 0.15407228
+--- !u!114 &-3036405471330069871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5561637737652143694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c4365635b2c5274a94b0b7d6ae4ae03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

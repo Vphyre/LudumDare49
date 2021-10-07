@@ -39,7 +39,6 @@ public class Baby : MonoBehaviour
     public AudioClip crySound, happySound, teleportSound;
     public AudioSource sounds;
     
-
     // Start is called before the first frame update
     void Start()
     {
@@ -156,8 +155,7 @@ public class Baby : MonoBehaviour
             transform.position = new Vector3(babyPlaces[placeSort].transform.position.x,babyPlaces[placeSort].transform.position.y, babyPlaces[placeSort].transform.position.z);
             randomTime = 20f;
             sounds.Stop();
-            sounds.clip = teleportSound;
-            sounds.Play();
+            sounds.PlayOneShot(teleportSound);
             moodDrain = 1f;
         }
     }
@@ -393,6 +391,4 @@ public class Baby : MonoBehaviour
         previousSceneName = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene("GameOver"); 
     }
-    
-
 }

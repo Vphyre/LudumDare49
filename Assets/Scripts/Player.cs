@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Player : MonoBehaviour
 {
     Rigidbody2D body;
@@ -15,6 +16,8 @@ public class Player : MonoBehaviour
     Animator animator;
     bool facingRight;
     public bool dieScene;
+    AudioSource sounds;
+    public AudioClip walkSound;
 
     void Start()
     {
@@ -23,6 +26,7 @@ public class Player : MonoBehaviour
         canGetItem = false;
         itemCaught = false;
         facingRight = true;
+        sounds = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -50,9 +54,7 @@ public class Player : MonoBehaviour
             animator.SetBool("Holding", false);
             animator.SetBool("Idle", false);
             animator.SetBool("Dead", true);
-        
-        }
-        
+        }        
     }
 
     private void FixedUpdate()
@@ -78,8 +80,6 @@ public class Player : MonoBehaviour
         {
             canGetItem = true;
             itemObj = other.gameObject;
-            // print(other.gameObject.name);
-            // print(itemObj.name);
         }
         
     }
@@ -90,7 +90,6 @@ public class Player : MonoBehaviour
             canGetItem = false;
             itemObj = null;
         }
-        
     }
     private void DropItem()
     {
@@ -148,6 +147,7 @@ public class Player : MonoBehaviour
             animator.SetBool("Holding", false);
             animator.SetBool("Idle", true);
             animator.SetBool("Dead", false);
+            sounds.Stop();
         }
         //Walking Holding
         if(walking>0 && itemCaught)
@@ -164,6 +164,16 @@ public class Player : MonoBehaviour
             animator.SetBool("Holding", true);
             animator.SetBool("Idle", true);
             animator.SetBool("Dead", false);
+            sounds.Stop();
+        }
+    }
+
+    public void Sounds()
+    {
+        if(!sounds.isPlaying)
+        {
+            sounds.Play();
+            sounds.clip = walkSound;
         }
     }
 

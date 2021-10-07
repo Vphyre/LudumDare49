@@ -7,11 +7,13 @@ public class Chair : MonoBehaviour
     protected bool canClimb;
     protected GameObject player;
     protected Transform seat;
+
     // Start is called before the first frame update
     void Start()
     {
         canClimb = false;
         seat = transform.GetChild(0).gameObject.transform;
+        transform.GetComponent<SpriteRenderer>().color = new Color(.6f,.6f,.6f,1f);
     }
 
     // Update is called once per frame
@@ -26,6 +28,10 @@ public class Chair : MonoBehaviour
         {
             canClimb = true;
             player = other.gameObject;
+            if(gameObject.tag != "Untagged")
+            {
+                transform.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
+            }
         }
     }
     protected void OnTriggerExit2D(Collider2D other)
@@ -34,6 +40,7 @@ public class Chair : MonoBehaviour
         {
             canClimb = false;
             player = null;
+            transform.GetComponent<SpriteRenderer>().color = new Color(.6f,.6f,.6f,1f);
         }
     }
 
@@ -45,6 +52,7 @@ public class Chair : MonoBehaviour
             player.transform.position = new Vector3(seat.position.x, seat.position.y, seat.position.z);
             player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
             gameObject.tag = "Untagged";
+            transform.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
         }
     }
     protected void GoDown()
